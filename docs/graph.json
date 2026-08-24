@@ -1,0 +1,726 @@
+{
+  "nodes": [
+    {
+      "id": 0,
+      "page_id": 308,
+      "title": "Aristotle",
+      "community": 10
+    },
+    {
+      "id": 1,
+      "page_id": 340,
+      "title": "Alain Connes",
+      "community": 0
+    },
+    {
+      "id": 2,
+      "page_id": 612,
+      "title": "Arithmetic mean",
+      "community": 1
+    },
+    {
+      "id": 3,
+      "page_id": 634,
+      "title": "Analysis of variance",
+      "community": 1
+    },
+    {
+      "id": 4,
+      "page_id": 655,
+      "title": "Abacus",
+      "community": 2
+    },
+    {
+      "id": 5,
+      "page_id": 736,
+      "title": "Albert Einstein",
+      "community": 3
+    },
+    {
+      "id": 6,
+      "page_id": 742,
+      "title": "Algorithms (journal)",
+      "community": 3
+    },
+    {
+      "id": 7,
+      "page_id": 775,
+      "title": "Algorithm",
+      "community": 3
+    },
+    {
+      "id": 8,
+      "page_id": 840,
+      "title": "Axiom of choice",
+      "community": 10
+    },
+    {
+      "id": 9,
+      "page_id": 915,
+      "title": "Andrey Markov",
+      "community": 4
+    },
+    {
+      "id": 10,
+      "page_id": 928,
+      "title": "Axiom",
+      "community": 10
+    },
+    {
+      "id": 11,
+      "page_id": 974,
+      "title": "Ada Lovelace",
+      "community": 3
+    },
+    {
+      "id": 12,
+      "page_id": 991,
+      "title": "Absolute value",
+      "community": 11
+    },
+    {
+      "id": 13,
+      "page_id": 1018,
+      "title": "Algebraically closed field",
+      "community": 9
+    },
+    {
+      "id": 14,
+      "page_id": 1021,
+      "title": "Aspect ratio",
+      "community": 5
+    },
+    {
+      "id": 15,
+      "page_id": 1063,
+      "title": "Algorithms for calculating variance",
+      "community": 3
+    },
+    {
+      "id": 16,
+      "page_id": 1158,
+      "title": "Algebraic number",
+      "community": 9
+    },
+    {
+      "id": 17,
+      "page_id": 1160,
+      "title": "Automorphism",
+      "community": 9
+    },
+    {
+      "id": 18,
+      "page_id": 1176,
+      "title": "Antisymmetric relation",
+      "community": 6
+    },
+    {
+      "id": 19,
+      "page_id": 1196,
+      "title": "Angle",
+      "community": 11
+    },
+    {
+      "id": 20,
+      "page_id": 1208,
+      "title": "Alan Turing",
+      "community": 3
+    },
+    {
+      "id": 21,
+      "page_id": 1209,
+      "title": "Area",
+      "community": 11
+    },
+    {
+      "id": 22,
+      "page_id": 1260,
+      "title": "Advanced Encryption Standard",
+      "community": 7
+    },
+    {
+      "id": 23,
+      "page_id": 1309,
+      "title": "Almost all",
+      "community": 9
+    },
+    {
+      "id": 24,
+      "page_id": 1335,
+      "title": "Associative property",
+      "community": 8
+    },
+    {
+      "id": 25,
+      "page_id": 1635,
+      "title": "Kolmogorov complexity",
+      "community": 10
+    },
+    {
+      "id": 26,
+      "page_id": 1645,
+      "title": "Ibn al-Haytham",
+      "community": 10
+    },
+    {
+      "id": 27,
+      "page_id": 1786,
+      "title": "Arabic numerals",
+      "community": 10
+    },
+    {
+      "id": 28,
+      "page_id": 1842,
+      "title": "Augustin-Louis Cauchy",
+      "community": 11
+    },
+    {
+      "id": 29,
+      "page_id": 1844,
+      "title": "Archimedes",
+      "community": 11
+    },
+    {
+      "id": 30,
+      "page_id": 1847,
+      "title": "Archimedean solid",
+      "community": 11
+    },
+    {
+      "id": 31,
+      "page_id": 1851,
+      "title": "Antiprism",
+      "community": 11
+    },
+    {
+      "id": 32,
+      "page_id": 1873,
+      "title": "Anthemius of Tralles",
+      "community": 11
+    },
+    {
+      "id": 33,
+      "page_id": 1997,
+      "title": "Algebraic geometry",
+      "community": 11
+    },
+    {
+      "id": 34,
+      "page_id": 2019,
+      "title": "Andr\u00e9 Weil",
+      "community": 0
+    },
+    {
+      "id": 35,
+      "page_id": 2021,
+      "title": "Atle Selberg",
+      "community": 0
+    },
+    {
+      "id": 36,
+      "page_id": 2027,
+      "title": "Andrew Wiles",
+      "community": 0
+    },
+    {
+      "id": 37,
+      "page_id": 2042,
+      "title": "Alexander Grothendieck",
+      "community": 0
+    },
+    {
+      "id": 38,
+      "page_id": 2112,
+      "title": "Associative algebra",
+      "community": 10
+    },
+    {
+      "id": 39,
+      "page_id": 2113,
+      "title": "Axiom of regularity",
+      "community": 10
+    },
+    {
+      "id": 40,
+      "page_id": 2125,
+      "title": "Algebraic extension",
+      "community": 9
+    },
+    {
+      "id": 41,
+      "page_id": 2202,
+      "title": "Analytic geometry",
+      "community": 11
+    },
+    {
+      "id": 42,
+      "page_id": 2230,
+      "title": "Analysis of algorithms",
+      "community": 3
+    },
+    {
+      "id": 43,
+      "page_id": 2428,
+      "title": "Analog computer",
+      "community": 10
+    },
+    {
+      "id": 44,
+      "page_id": 2443,
+      "title": "Acceleration",
+      "community": 11
+    },
+    {
+      "id": 45,
+      "page_id": 2546,
+      "title": "Automated theorem proving",
+      "community": 10
+    },
+    {
+      "id": 46,
+      "page_id": 2785,
+      "title": "Annals of Mathematics",
+      "community": 0
+    },
+    {
+      "id": 47,
+      "page_id": 2823,
+      "title": "Antiderivative",
+      "community": 11
+    },
+    {
+      "id": 48,
+      "page_id": 2925,
+      "title": "Ackermann function",
+      "community": 3
+    },
+    {
+      "id": 49,
+      "page_id": 2948,
+      "title": "Agner Krarup Erlang",
+      "community": 12
+    }
+  ],
+  "links": [
+    {
+      "source": 0,
+      "target": 29
+    },
+    {
+      "source": 1,
+      "target": 37
+    },
+    {
+      "source": 1,
+      "target": 35
+    },
+    {
+      "source": 2,
+      "target": 3
+    },
+    {
+      "source": 2,
+      "target": 19
+    },
+    {
+      "source": 3,
+      "target": 2
+    },
+    {
+      "source": 6,
+      "target": 7
+    },
+    {
+      "source": 7,
+      "target": 11
+    },
+    {
+      "source": 7,
+      "target": 20
+    },
+    {
+      "source": 7,
+      "target": 42
+    },
+    {
+      "source": 7,
+      "target": 45
+    },
+    {
+      "source": 8,
+      "target": 45
+    },
+    {
+      "source": 8,
+      "target": 10
+    },
+    {
+      "source": 8,
+      "target": 39
+    },
+    {
+      "source": 8,
+      "target": 25
+    },
+    {
+      "source": 10,
+      "target": 5
+    },
+    {
+      "source": 10,
+      "target": 19
+    },
+    {
+      "source": 10,
+      "target": 0
+    },
+    {
+      "source": 10,
+      "target": 45
+    },
+    {
+      "source": 10,
+      "target": 8
+    },
+    {
+      "source": 10,
+      "target": 25
+    },
+    {
+      "source": 11,
+      "target": 20
+    },
+    {
+      "source": 11,
+      "target": 7
+    },
+    {
+      "source": 12,
+      "target": 41
+    },
+    {
+      "source": 12,
+      "target": 47
+    },
+    {
+      "source": 13,
+      "target": 40
+    },
+    {
+      "source": 13,
+      "target": 16
+    },
+    {
+      "source": 15,
+      "target": 7
+    },
+    {
+      "source": 16,
+      "target": 13
+    },
+    {
+      "source": 16,
+      "target": 23
+    },
+    {
+      "source": 17,
+      "target": 33
+    },
+    {
+      "source": 17,
+      "target": 8
+    },
+    {
+      "source": 19,
+      "target": 21
+    },
+    {
+      "source": 20,
+      "target": 11
+    },
+    {
+      "source": 20,
+      "target": 5
+    },
+    {
+      "source": 20,
+      "target": 7
+    },
+    {
+      "source": 21,
+      "target": 44
+    },
+    {
+      "source": 21,
+      "target": 19
+    },
+    {
+      "source": 21,
+      "target": 29
+    },
+    {
+      "source": 21,
+      "target": 10
+    },
+    {
+      "source": 23,
+      "target": 16
+    },
+    {
+      "source": 25,
+      "target": 45
+    },
+    {
+      "source": 25,
+      "target": 10
+    },
+    {
+      "source": 25,
+      "target": 8
+    },
+    {
+      "source": 26,
+      "target": 43
+    },
+    {
+      "source": 26,
+      "target": 27
+    },
+    {
+      "source": 26,
+      "target": 0
+    },
+    {
+      "source": 26,
+      "target": 10
+    },
+    {
+      "source": 27,
+      "target": 26
+    },
+    {
+      "source": 29,
+      "target": 32
+    },
+    {
+      "source": 29,
+      "target": 30
+    },
+    {
+      "source": 29,
+      "target": 0
+    },
+    {
+      "source": 29,
+      "target": 10
+    },
+    {
+      "source": 30,
+      "target": 31
+    },
+    {
+      "source": 30,
+      "target": 29
+    },
+    {
+      "source": 31,
+      "target": 30
+    },
+    {
+      "source": 32,
+      "target": 29
+    },
+    {
+      "source": 33,
+      "target": 37
+    },
+    {
+      "source": 33,
+      "target": 13
+    },
+    {
+      "source": 33,
+      "target": 7
+    },
+    {
+      "source": 33,
+      "target": 41
+    },
+    {
+      "source": 33,
+      "target": 34
+    },
+    {
+      "source": 33,
+      "target": 19
+    },
+    {
+      "source": 33,
+      "target": 29
+    },
+    {
+      "source": 33,
+      "target": 21
+    },
+    {
+      "source": 33,
+      "target": 17
+    },
+    {
+      "source": 34,
+      "target": 37
+    },
+    {
+      "source": 34,
+      "target": 33
+    },
+    {
+      "source": 34,
+      "target": 36
+    },
+    {
+      "source": 34,
+      "target": 35
+    },
+    {
+      "source": 35,
+      "target": 1
+    },
+    {
+      "source": 35,
+      "target": 37
+    },
+    {
+      "source": 35,
+      "target": 36
+    },
+    {
+      "source": 35,
+      "target": 34
+    },
+    {
+      "source": 35,
+      "target": 46
+    },
+    {
+      "source": 36,
+      "target": 34
+    },
+    {
+      "source": 36,
+      "target": 46
+    },
+    {
+      "source": 36,
+      "target": 35
+    },
+    {
+      "source": 37,
+      "target": 1
+    },
+    {
+      "source": 37,
+      "target": 33
+    },
+    {
+      "source": 37,
+      "target": 34
+    },
+    {
+      "source": 37,
+      "target": 35
+    },
+    {
+      "source": 38,
+      "target": 10
+    },
+    {
+      "source": 39,
+      "target": 10
+    },
+    {
+      "source": 39,
+      "target": 8
+    },
+    {
+      "source": 40,
+      "target": 16
+    },
+    {
+      "source": 40,
+      "target": 13
+    },
+    {
+      "source": 40,
+      "target": 17
+    },
+    {
+      "source": 40,
+      "target": 8
+    },
+    {
+      "source": 41,
+      "target": 33
+    },
+    {
+      "source": 41,
+      "target": 19
+    },
+    {
+      "source": 41,
+      "target": 29
+    },
+    {
+      "source": 41,
+      "target": 21
+    },
+    {
+      "source": 42,
+      "target": 7
+    },
+    {
+      "source": 44,
+      "target": 5
+    },
+    {
+      "source": 44,
+      "target": 19
+    },
+    {
+      "source": 44,
+      "target": 21
+    },
+    {
+      "source": 44,
+      "target": 28
+    },
+    {
+      "source": 45,
+      "target": 20
+    },
+    {
+      "source": 45,
+      "target": 10
+    },
+    {
+      "source": 45,
+      "target": 8
+    },
+    {
+      "source": 45,
+      "target": 25
+    },
+    {
+      "source": 47,
+      "target": 44
+    },
+    {
+      "source": 47,
+      "target": 21
+    },
+    {
+      "source": 48,
+      "target": 7
+    }
+  ]
+}
