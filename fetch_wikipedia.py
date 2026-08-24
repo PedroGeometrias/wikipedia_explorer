@@ -1,111 +1,207 @@
-# Fetch a set of WikiProject Mathematics articles and build directed edges
-# between articles that link to one another inside that selected set.
+import time
+from itertools import islice
 
 import requests
 
+
 URL = "https://en.wikipedia.org/w/api.php"
-HEADERS = {"User-Agent": "WikipediaExplorer/0.1"}
+HEADERS = {
+    "User-Agent": (
+        "WikipediaExplorer/0.1 "
+        "(https://github.com/PedroGeometrias/wikipedia_explorer)"
+    )
+}
+
+BATCH_SIZE = 50
+REQUEST_DELAY = 0.25
+MAX_RETRIES = 6
+RETRYABLE_STATUS_CODES = {429, 500, 502, 503, 504}
+
+
+def chunks(iterable, size):
+    """Yield successive chunks from an iterable."""
+    iterator = iter(iterable)
+
+    while True:
+        chunk = list(islice(iterator, size))
+
+        if not chunk:
+            return
+
+        yield chunk
+
+
+def get_json(session, params):
+    """Send a Wikipedia API request with basic retry handling."""
+    for attempt in range(MAX_RETRIES):
+        response = session.get(
+            URL,
+            params=params,
+            headers=HEADERS,
+            timeout=30,
+        )
+
+        if response.status_code in RETRYABLE_STATUS_CODES:
+            retry_after = response.headers.get("Retry-After", "")
+            wait = (
+                int(retry_after)
+                if retry_after.isdigit()
+                else 2 ** attempt
+            )
+
+            response.close()
+            time.sleep(wait)
+            continue
+
+        response.raise_for_status()
+        time.sleep(REQUEST_DELAY)
+        return response.json()
+
+    raise RuntimeError(
+        "Wikipedia API request failed after repeated retries"
+    )
 
 
 def fetch_wikipedia_articles(limit: int = 50):
     """
-    Fetch articles from WikiProject Mathematics and the links between them.
+    Fetch WikiProject Mathematics articles and the links between them.
+
+    Article discovery uses Wikipedia continuation tokens. Link requests
+    are divided into batches to stay within the API parameter limits.
 
     Args:
-        limit (int): Number of WikiProject Mathematics articles to fetch.
-                     The current single-request implementation is intended
-                     for up to 50 articles.
+        limit: Maximum number of articles to fetch.
 
     Returns:
-        tuple: (articles, edges)
-            articles: list of Wikipedia article dictionaries, including
-                      page ID, title, and assessment data when available.
-            edges: list of (source_page_id, destination_page_id) tuples.
+        A tuple containing the article records and graph edges.
     """
-    # --------------------------------------------------
-    # 1. Get a number of Wikipedia articles
-    # --------------------------------------------------
-    params = {
+    if limit < 1:
+        raise ValueError("limit must be at least 1")
+
+    articles = []
+
+    project_params = {
         "action": "query",
         "format": "json",
         "list": "projectpages",
         "wppprojects": "Mathematics",
         "wppassessments": "true",
-        "wpplimit": limit,
     }
 
-    res = requests.get(URL, params=params, headers=HEADERS, timeout=10)
-    res.raise_for_status()
-    data = res.json()
+    with requests.Session() as session:
+        # ----------------------------------------------
+        # 1. Fetch articles using API continuation
+        # ----------------------------------------------
+        while len(articles) < limit:
+            project_params["wpplimit"] = min(
+                BATCH_SIZE,
+                limit - len(articles),
+            )
 
-    articles = data.get("query", {}).get("projects", {}).get("Mathematics", [])
+            data = get_json(session, project_params)
 
-    if not articles:
-        print("No articles found.")
-        return [], []
+            batch = (
+                data.get("query", {})
+                .get("projects", {})
+                .get("Mathematics", [])
+            )
 
-    # --------------------------------------------------
-    # 2. Build a helper lookup: title -> page ID
-    # --------------------------------------------------
-    selected_articles = {}
+            if not batch:
+                break
 
-    for article in articles:
-        title = article["title"]
-        page_id = article["pageid"]
-        selected_articles[title] = page_id
+            articles.extend(batch)
 
-    print("SELECTED ARTICLES:")
+            if len(articles) >= limit:
+                break
 
-    for title, page_id in selected_articles.items():
-        print(page_id, title)
+            if "continue" not in data:
+                break
 
-    # --------------------------------------------------
-    # 3. Prepare selected titles and IDs for the API
-    # --------------------------------------------------
-    selected_titles = "|".join(selected_articles.keys())
-    page_ids = "|".join(str(page_id) for page_id in selected_articles.values())
+            project_params.update(data["continue"])
 
-    # --------------------------------------------------
-    # 4. Fetch links for all selected articles at once,
-    #    restricted to destinations inside our dataset
-    # --------------------------------------------------
-    link_params = {
-        "action": "query",
-        "format": "json",
-        "formatversion": "2",
-        "prop": "links",
-        "pageids": page_ids,
-        "plnamespace": "0",
-        "pltitles": selected_titles,
-        "pllimit": "max",
-    }
+        if not articles:
+            print("No articles found.")
+            return [], []
 
-    res = requests.get(URL, params=link_params, headers=HEADERS, timeout=10)
-    res.raise_for_status()
-    link_data = res.json()
+        selected_articles = {
+            article["title"]: article["pageid"]
+            for article in articles
+        }
 
-    # --------------------------------------------------
-    # 5. Build directed graph edges
-    # --------------------------------------------------
-    edges = []
+        page_ids = [
+            article["pageid"]
+            for article in articles
+        ]
 
-    for page in link_data.get("query", {}).get("pages", []):
-        source_id = page.get("pageid")
+        selected_titles = list(selected_articles)
+        edges = set()
 
-        if source_id is None:
-            continue
+        # ----------------------------------------------
+        # 2. Fetch links using source/destination batches
+        # ----------------------------------------------
+        for id_batch in chunks(page_ids, BATCH_SIZE):
+            for title_batch in chunks(
+                selected_titles,
+                BATCH_SIZE,
+            ):
+                link_params = {
+                    "action": "query",
+                    "format": "json",
+                    "formatversion": "2",
+                    "prop": "links",
+                    "pageids": "|".join(
+                        str(page_id)
+                        for page_id in id_batch
+                    ),
+                    "pltitles": "|".join(title_batch),
+                    "plnamespace": "0",
+                    "pllimit": "max",
+                }
 
-        for link in page.get("links", []):
-            destination_title = link.get("title")
+                while True:
+                    link_data = get_json(
+                        session,
+                        link_params,
+                    )
 
-            if destination_title in selected_articles:
-                destination_id = selected_articles[destination_title]
-                edges.append((source_id, destination_id))
+                    pages = (
+                        link_data
+                        .get("query", {})
+                        .get("pages", [])
+                    )
 
-    print("\nEDGES:")
+                    for page in pages:
+                        source_id = page.get("pageid")
 
-    for source_id, destination_id in edges:
-        print(source_id, "->", destination_id)
+                        if source_id is None:
+                            continue
 
-    # Return the full article records for PostgreSQL, not the helper lookup.
-    return articles, edges
+                        for link in page.get("links", []):
+                            destination_id = (
+                                selected_articles.get(
+                                    link.get("title")
+                                )
+                            )
+
+                            if destination_id is not None:
+                                edges.add(
+                                    (
+                                        source_id,
+                                        destination_id,
+                                    )
+                                )
+
+                    if "continue" not in link_data:
+                        break
+
+                    link_params.update(
+                        link_data["continue"]
+                    )
+
+    print(f"Selected {len(articles)} articles.")
+    print(
+        f"Found {len(edges)} links "
+        "between selected articles."
+    )
+
+    return articles, sorted(edges)
