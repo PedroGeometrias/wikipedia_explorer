@@ -12,6 +12,7 @@ const colors = [
 const info = document.getElementById("info");
 const bfsButton = document.getElementById("bfs-button");
 const searchInput = document.getElementById("search");
+const reset_btn = document.getElementById("reset-all");
 
 let graphView;
 let graphData;
@@ -19,6 +20,7 @@ let module;
 let graphPointer;
 let selectedNode = null;
 let bfsDistances = null;
+let previousView = null;
 
 function nodeColor(node) {
   if (selectedNode && node.id === selectedNode.id) {
@@ -51,13 +53,33 @@ function showNode(node) {
 }
 
 function focusNode(node) {
+  if (!previousView) {
+    const position = graphView.cameraPosition();
+    const target = graphView.controls().target;
+
+    previousView = {
+      position: {
+        x: position.x,
+        y: position.y,
+        z: position.z,
+      },
+      target: {
+        x: target.x,
+        y: target.y,
+        z: target.z,
+      },
+    };
+  }
+
   const distance = Math.hypot(node.x, node.y, node.z) || 1;
   const ratio = 1 + 50 / distance;
+
   graphView.cameraPosition(
     { x: node.x * ratio, y: node.y * ratio, z: node.z * ratio },
     node,
     800,
   );
+
   showNode(node);
 }
 
@@ -148,6 +170,23 @@ bfsButton.addEventListener("click", () => {
   );
   module._free(distancePointer);
   graphView.nodeColor(nodeColor);
+});
+
+reset_btn.addEventListener("click", () => {
+  selectedNode = null;
+  bfsDistances = null;
+
+  searchInput.value = "";
+  bfsButton.disabled = true;
+
+  info.textContent = "CLICK NODE TO INSPECT IT";
+  graphView.nodeColor(nodeColor);
+
+  if (previousView) {
+    graphView.cameraPosition(previousView.position, previousView.target, 800);
+
+    previousView = null;
+  }
 });
 
 document.getElementById("search-button").addEventListener("click", () => {
