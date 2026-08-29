@@ -13,11 +13,14 @@ const info = document.getElementById("info");
 const bfsButton = document.getElementById("bfs-button");
 const searchInput = document.getElementById("search");
 const reset_btn = document.getElementById("reset-all");
+const backButton = document.getElementById("back-button");
+const forwardButton = document.getElementById("forward-button");
 
 let graphView;
 let graphData;
 let module;
 let graphPointer;
+let historyPointer;
 let selectedNode = null;
 let bfsDistances = null;
 let previousView = null;
@@ -61,7 +64,11 @@ function showNode(node) {
   graphView.nodeColor(nodeColor);
 }
 
-function focusNode(node) {
+function focusNode(node, recordHistory = true) {
+  if (recordHistory) {
+    module._history_visit(historyPointer, node.id);
+    updateHistoryButtons();
+  }
   if (!previousView) {
     const position = graphView.cameraPosition();
     const target = graphView.controls().target;
@@ -139,6 +146,11 @@ function calculateMetrics() {
   module._free(inPointer);
   module._free(rankPointer);
 }
+function updateHistoryButtons() {
+  backButton.disabled = !module._history_can_back(historyPointer);
+
+  forwardButton.disabled = !module._history_can_forward(historyPointer);
+}
 
 async function start() {
   if (typeof createGraphModule !== "function") {
@@ -147,6 +159,11 @@ async function start() {
 
   graphData = await fetch("graph.json").then((response) => response.json());
   module = await createGraphModule();
+  historyPointer = module._history_create();
+
+  if (!historyPointer) {
+    throw new Error("Could not create navigation history.");
+  }
   copyGraphToWasm();
   calculateMetrics();
 
@@ -181,12 +198,41 @@ bfsButton.addEventListener("click", () => {
   graphView.nodeColor(nodeColor);
 });
 
+backButton.addEventListener("click", () => {
+  const nodeId = module._history_back(historyPointer);
+
+  if (nodeId === 0xffffffff) {
+    return;
+  }
+
+  const node = graphData.nodes[nodeId];
+
+  focusNode(node, false);
+  updateHistoryButtons();
+});
+
+forwardButton.addEventListener("click", () => {
+  const nodeId = module._history_forward(historyPointer);
+
+  if (nodeId === 0xffffffff) {
+    return;
+  }
+
+  const node = graphData.nodes[nodeId];
+
+  focusNode(node, false);
+  updateHistoryButtons();
+});
+
 reset_btn.addEventListener("click", () => {
   selectedNode = null;
   bfsDistances = null;
 
   searchInput.value = "";
   bfsButton.disabled = true;
+
+  module._history_clear(historyPointer);
+  updateHistoryButtons();
 
   info.textContent = "CLICK NODE TO INSPECT IT";
   graphView.nodeColor(nodeColor);
@@ -197,7 +243,6 @@ reset_btn.addEventListener("click", () => {
     previousView = null;
   }
 });
-
 document.getElementById("search-button").addEventListener("click", () => {
   const query = searchInput.value.trim().toLowerCase();
   if (!query) return;
@@ -208,9 +253,14 @@ document.getElementById("search-button").addEventListener("click", () => {
 });
 
 window.addEventListener("beforeunload", () => {
-  if (module && graphPointer) module._graph_free(graphPointer);
-});
+  if (module && historyPointer) {
+    module._history_destroy(historyPointer);
+  }
 
+  if (module && graphPointer) {
+    module._graph_free(graphPointer);
+  }
+});
 start().catch((error) => {
   info.textContent = error.message;
   console.error(error);

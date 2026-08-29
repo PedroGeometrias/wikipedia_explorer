@@ -1,7 +1,8 @@
 CC ?= cc
 EMCC ?= emcc
 CFLAGS := -std=c11 -Wall -Wextra -Wpedantic
-C_SOURCES := graph.c bfs.c pagerank.c
+
+C_SOURCES := graph.c bfs.c pagerank.c stack.c history.c
 
 .PHONY: check wasm serve clean
 
@@ -10,6 +11,8 @@ check:
 	$(CC) $(CFLAGS) -c graph.c -o build/graph.o
 	$(CC) $(CFLAGS) -c bfs.c -o build/bfs.o
 	$(CC) $(CFLAGS) -c pagerank.c -o build/pagerank.o
+	$(CC) $(CFLAGS) -c stack.c -o build/stack.o
+	$(CC) $(CFLAGS) -c history.c -o build/history.o
 
 wasm:
 	$(EMCC) $(C_SOURCES) -O2 --no-entry \
@@ -18,7 +21,7 @@ wasm:
 		-sFILESYSTEM=0 \
 		-sMODULARIZE=1 \
 		-sEXPORT_NAME=createGraphModule \
-		-sEXPORTED_FUNCTIONS='["_malloc","_free","_graph_create","_graph_set_edges","_graph_free","_bfs","_bfs_paths","_compute_degrees","_pagerank"]' \
+		-sEXPORTED_FUNCTIONS='["_malloc","_free","_graph_create","_graph_set_edges","_graph_free","_bfs","_bfs_paths","_compute_degrees","_pagerank","_history_create","_history_destroy","_history_visit","_history_back","_history_forward","_history_can_back","_history_can_forward","_history_clear"]' \
 		-o docs/graph_module.js
 
 serve:
