@@ -40,6 +40,13 @@ function showNode(node) {
   info.replaceChildren();
   const title = document.createElement("strong");
   title.textContent = node.title;
+  const wiki_link = document.createElement("a");
+  wiki_link.href = `https://en.wikipedia.org/wiki/${encodeURIComponent(
+    node.title.replaceAll(" ", "_"),
+  )}`;
+  wiki_link.target = "_blank";
+  wiki_link.rel = "noopener noreferrer";
+  wiki_link.textContent = "Open on Wikipedia ";
   info.append(
     title,
     document.createElement("br"),
@@ -48,6 +55,8 @@ function showNode(node) {
     `Out-degree: ${node.outDegree}`,
     document.createElement("br"),
     `PageRank: ${node.pageRank.toFixed(6)}`,
+    document.createElement("br"),
+    wiki_link,
   );
   graphView.nodeColor(nodeColor);
 }
