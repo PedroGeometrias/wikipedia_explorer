@@ -14,6 +14,9 @@ Graph* graph_create(uint32_t node_count, uint32_t edge_count) {
 }
 
 void graph_set_edges(Graph *g, const uint32_t *src, const uint32_t *dst) {
+    if(!g && !src && !dst){
+        return;
+    }
     uint32_t *out_deg = (uint32_t*)calloc(g->node_count, sizeof(uint32_t));
     uint32_t *in_deg = (uint32_t*)calloc(g->node_count, sizeof(uint32_t));
     

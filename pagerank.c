@@ -6,6 +6,9 @@
 
 // this fills out_degrees with outgoing edges from node i, and indegrees, with the incoming edges to node i
 void compute_degrees(const Graph *g, uint32_t *out_degrees, uint32_t *in_degrees) {
+    if(!g && !out_degrees && !in_degrees){
+        return;
+    }
     for (uint32_t i = 0; i < g->node_count; i++) {
         out_degrees[i] = g->out_offsets[i + 1] - g->out_offsets[i];
         in_degrees[i] = g->in_offsets[i + 1] - g->in_offsets[i];
@@ -16,6 +19,9 @@ void compute_degrees(const Graph *g, uint32_t *out_degrees, uint32_t *in_degrees
 
 // actual pagerank algorithm
 uint32_t pagerank(const Graph *g, double damping, double tolerance, uint32_t max_iteration, double *scores) {
+    if(!g && !scores){
+        return 0;
+    }
     // initialization
     uint32_t n = g->node_count;
     if (n == 0) return 0;
