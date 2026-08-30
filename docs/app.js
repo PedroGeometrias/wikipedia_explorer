@@ -60,6 +60,8 @@ function showNode(node) {
     `PageRank: ${node.pageRank.toFixed(6)}`,
     document.createElement("br"),
     wiki_link,
+    document.createElement("br"),
+    `Community: ${node.community}`,
   );
   graphView.nodeColor(nodeColor);
 }
