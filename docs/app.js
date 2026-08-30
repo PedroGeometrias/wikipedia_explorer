@@ -12,6 +12,7 @@ const colors = [
 const info = document.getElementById("info");
 const bfsButton = document.getElementById("bfs-button");
 const searchInput = document.getElementById("search");
+const searchSuggestions = document.getElementById("search-suggestions");
 const reset_btn = document.getElementById("reset-all");
 const backButton = document.getElementById("back-button");
 const forwardButton = document.getElementById("forward-button");
@@ -148,6 +149,7 @@ function calculateMetrics() {
   module._free(inPointer);
   module._free(rankPointer);
 }
+
 function updateHistoryButtons() {
   backButton.disabled = !module._history_can_back(historyPointer);
 
@@ -171,7 +173,7 @@ async function start() {
 
   graphView = ForceGraph3D()(document.getElementById("graph"))
     .graphData(graphData)
-    .backgroundColor("#000000")
+    .backgroundColor("#141010")
     .nodeLabel("title")
     .nodeColor(nodeColor)
     .nodeVal((node) => 2 + node.pageRank * graphData.nodes.length * 4)
@@ -240,6 +242,7 @@ reset_btn.addEventListener("click", () => {
   bfsDistances = null;
 
   searchInput.value = "";
+  searchSuggestions.replaceChildren();
   bfsButton.disabled = true;
 
   module._history_clear(historyPointer);
@@ -254,6 +257,45 @@ reset_btn.addEventListener("click", () => {
     previousView = null;
   }
 });
+
+searchInput.addEventListener("input", () => {
+  const query = searchInput.value.trim().toLowerCase();
+
+  searchSuggestions.replaceChildren();
+
+  if (!query || !graphData) {
+    info.classList.remove("hidden");
+    return;
+  }
+
+  const matches = graphData.nodes
+    .filter((node) => node.title.toLowerCase().startsWith(query))
+    .slice(0, 10);
+
+  if (matches.length > 0) {
+    info.classList.add("hidden");
+  } else {
+    info.classList.remove("hidden");
+  }
+
+  for (const node of matches) {
+    const suggestion = document.createElement("button");
+
+    suggestion.textContent = node.title;
+
+    suggestion.addEventListener("click", () => {
+      searchInput.value = node.title;
+      searchSuggestions.replaceChildren();
+
+      info.classList.remove("hidden");
+
+      focusNode(node);
+    });
+
+    searchSuggestions.appendChild(suggestion);
+  }
+});
+
 document.getElementById("search-button").addEventListener("click", () => {
   const query = searchInput.value.trim().toLowerCase();
   if (!query) return;
@@ -272,6 +314,7 @@ window.addEventListener("beforeunload", () => {
     module._graph_free(graphPointer);
   }
 });
+
 start().catch((error) => {
   info.textContent = error.message;
   console.error(error);

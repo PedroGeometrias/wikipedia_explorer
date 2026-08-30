@@ -1,28 +1,88 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Wikipedia 3d graph</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <div id="controls">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Wikipedia 3D Graph</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="controls">
+
+        <div class="title-section">
             <strong>WIKIPEDIA 3D GRAPH</strong>
-            <input id="search" type="search" placeholder="Article title">
-            <button id="search-button">Search</button>
-            <button id="bfs-button" disabled>Run BFS</button>
-            <button id="reset-all"> RESET!!! </button>
-            <button id="back-button" disabled> Back</button>
-            <button id="forward-button" disabled>Forward </button>
-            <button id="random-button">Random Article</button>
+            <span id="graph-summary">Mathematics knowledge graph</span>
         </div>
 
-        <div id="info">CLICK A NODE TO INSPECT IT.</div>
-        <div id="graph"></div>
+        <div class="toolbar">
 
-        <script src="https://cdn.jsdelivr.net/npm/3d-force-graph@1.80.0/dist/3d-force-graph.min.js"></script>
-        <script src="graph_module.js"></script>
-        <script src="app.js"></script>
-    </body>
+            <!-- Search / exploration -->
+            <div class="control-group">
+<div class="search-wrapper">
+    <input
+        id="search"
+        type="search"
+        placeholder="Search article..."
+    >
+    <div id="search-suggestions"></div>
+</div>
+                <button id="search-button">
+                    Search
+                </button>
+
+                <button id="random-button">
+                    Random Article
+                </button>
+            </div>
+
+            <!-- Navigation -->
+            <div class="control-group">
+                <button id="back-button" disabled>
+                    ← Back
+                </button>
+
+                <button id="forward-button" disabled>
+                    Forward →
+                </button>
+            </div>
+
+            <!-- Graph tools -->
+            <div class="control-group">
+                <button id="bfs-button" disabled>
+                    Run BFS
+                </button>
+
+                <button id="reset-all" class="secondary-button">
+                    Reset
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Selected node information -->
+    <div id="info">
+        CLICK A NODE TO INSPECT IT.
+    </div>
+
+
+    <!-- Small BFS explanation -->
+    <div id="bfs-legend">
+        <strong>BFS Distance</strong>
+        <span>Color = distance from selected node</span>
+        <span>Gray = unreachable</span>
+    </div>
+
+
+    <div id="graph"></div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/3d-force-graph@1.80.0/dist/3d-force-graph.min.js"></script>
+    <script src="graph_module.js"></script>
+    <script src="app.js"></script>
+
+</body>
 </html>

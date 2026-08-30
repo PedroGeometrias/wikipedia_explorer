@@ -1,44 +1,393 @@
+/* --------------------------------------------------
+   Matches my portfolio website:
+   Background: #141010
+   Primary green: #9EFF83
+   Muted green: #5b8e4d
+-------------------------------------------------- */
+
+:root {
+    --background: #141010;
+    --panel-background: rgba(20, 16, 16, 0.88);
+    --panel-background-light: rgba(20, 16, 16, 0.60);
+
+    --green: #9EFF83;
+    --green-muted:  #a5c99c;
+    --green-dark: #294523;
+
+    --text: #9EFF83;
+    --text-muted: #6f9c63;
+
+    --border: #5b8e4d;
+}
+
+
+/* --------------------------------------------------
+   GLOBAL
+-------------------------------------------------- */
+
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-html, body, #graph {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  overflow: hidden;
-  background: #000;
-  color: #eee;
-  font-family: sans-serif;
+html,
+body,
+#graph {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+
+    background: var(--background);
+    color: var(--text);
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 }
 
-#controls, #info {
-  position: fixed;
-  z-index: 2;
-  left: 16px;
-  padding: 10px;
-  border: 1px solid #555;
-  background: #111;
-}
+
+/* --------------------------------------------------
+   MAIN TOOLBAR
+-------------------------------------------------- */
 
 #controls {
-  top: 16px;
+    position: fixed;
+
+    z-index: 2;
+
+    top: 16px;
+    left: 16px;
+
+    width: fit-content;
+    max-width: calc(100vw - 32px);
+
+    padding: 10px 16px;
+
+    border: 1px solid var(--border);
+
+    background: var(--panel-background-light);
 }
 
-#info {
-  top: 66px;
-  min-width: 260px;
-  line-height: 1.5;
+
+/* --------------------------------------------------
+   TITLE
+-------------------------------------------------- */
+
+.title-section {
+    display: flex;
+    flex-direction: column;
+
+    margin-bottom: 12px;
 }
 
-input, button {
-  margin-left: 6px;
-  padding: 5px 8px;
-  border: 1px solid #666;
-  background: #222;
-  color: #eee;
+.title-section strong {
+    color: var(--green);
+
+    font-size: 16px;
+    letter-spacing: 1px;
 }
+
+#graph-summary {
+    margin-top: 3px;
+
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+
+/* --------------------------------------------------
+   TOOLBAR GROUPS
+-------------------------------------------------- */
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 16px;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+}
+
+
+/* --------------------------------------------------
+   SEARCH
+-------------------------------------------------- */
+
+.search-wrapper {
+    position: relative;
+}
+
+#search {
+    width: 280px;
+}
+
+
+/* --------------------------------------------------
+   BUTTONS + INPUTS
+-------------------------------------------------- */
+
+input,
+button {
+    height: 36px;
+
+    padding: 0 12px;
+
+    border: 1px solid var(--border);
+
+    background: var(--background);
+    color: var(--green);
+
+    font-size: 14px;
+}
+
+input {
+    background: rgba(20, 16, 16, 0.90);
+}
+
+input::placeholder {
+    color: var(--text-muted);
+}
+
+
+/* --------------------------------------------------
+   BUTTON INTERACTION
+-------------------------------------------------- */
+
+button {
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+button:hover:not(:disabled) {
+    background: var(--green-dark);
+    border-color: var(--green);
+    color: var(--green);
+}
+
+
+/* --------------------------------------------------
+   DISABLED BUTTONS
+-------------------------------------------------- */
 
 button:disabled {
-  color: #777;
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+
+/* --------------------------------------------------
+   RESET BUTTON
+-------------------------------------------------- */
+
+.secondary-button {
+    background: transparent;
+
+    color: var(--green-muted);
+    border-color: var(--green-muted);
+}
+
+.secondary-button:hover:not(:disabled) {
+    background: var(--green-dark);
+
+    color: var(--green);
+    border-color: var(--green);
+}
+
+
+/* --------------------------------------------------
+   NODE INFORMATION CARD
+-------------------------------------------------- */
+
+#info {
+    position: fixed;
+
+    z-index: 2;
+
+    top: 150px;
+    left: 16px;
+
+    min-width: 260px;
+    max-width: 330px;
+
+    padding: 16px;
+
+    border: 1px solid var(--border);
+
+    background: var(--panel-background);
+
+    color: var(--green);
+
+    line-height: 1.7;
+
+    font-size: 13px;
+}
+
+#info.hidden {
+    display: none;
+}
+
+
+/* selected article title */
+
+#info strong {
+    display: inline-block;
+
+    margin-bottom: 5px;
+
+    color: var(--green);
+
+    font-size: 17px;
+}
+
+
+/* Wikipedia link */
+
+#info a {
+    color: var(--green-muted);
+    text-decoration: none;
+}
+
+#info a:visited {
+    color: var(--green-muted);
+}
+
+#info a:hover {
+    color: var(--green);
+    text-decoration: underline;
+}
+
+
+/* --------------------------------------------------
+   BFS LEGEND
+-------------------------------------------------- */
+
+#bfs-legend {
+    position: fixed;
+
+    z-index: 2;
+
+    right: 16px;
+    bottom: 16px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+
+    padding: 12px 14px;
+
+    border: 1px solid var(--border);
+
+    background: var(--panel-background);
+
+    color: var(--text-muted);
+
+    font-size: 11px;
+}
+
+#bfs-legend strong {
+    color: var(--green);
+
+    font-size: 12px;
+}
+
+
+/* --------------------------------------------------
+   SEARCH SUGGESTIONS
+-------------------------------------------------- */
+
+#search-suggestions {
+    position: absolute;
+
+    z-index: 10;
+
+    top: calc(100% + 4px);
+    left: 0;
+
+    width: 100%;
+
+    background: var(--background);
+
+    border: 1px solid var(--border);
+
+    overflow: hidden;
+}
+
+#search-suggestions:empty {
+    display: none;
+}
+
+#search-suggestions button {
+    display: block;
+
+    width: 100%;
+    height: auto;
+
+    margin: 0;
+    padding: 8px 10px;
+
+    border: 0;
+    border-bottom: 1px solid var(--green-muted);
+
+    text-align: left;
+
+    background: var(--background);
+    color: var(--green);
+}
+
+#search-suggestions button:last-child {
+    border-bottom: 0;
+}
+
+#search-suggestions button:hover {
+    background: var(--green-dark);
+    color: var(--green);
+}
+
+
+/* --------------------------------------------------
+   MOBILE / SMALL WINDOWS
+-------------------------------------------------- */
+
+@media (max-width: 800px) {
+
+    #controls {
+        left: 8px;
+        right: auto;
+        top: 8px;
+
+        width: fit-content;
+        max-width: calc(100vw - 16px);
+    }
+
+    .toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+
+        gap: 8px;
+    }
+
+    .control-group {
+        flex-wrap: wrap;
+    }
+
+    #search {
+        width: 220px;
+    }
+
+    #info {
+        left: 8px;
+        top: 230px;
+    }
 }
