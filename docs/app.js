@@ -211,6 +211,15 @@ backButton.addEventListener("click", () => {
   updateHistoryButtons();
 });
 
+const randomButton = document.getElementById("random-button");
+
+randomButton.addEventListener("click", () => {
+  const node =
+    graphData.nodes[Math.floor(Math.random() * graphData.nodes.length)];
+
+  focusNode(node);
+});
+
 forwardButton.addEventListener("click", () => {
   const nodeId = module._history_forward(historyPointer);
 
