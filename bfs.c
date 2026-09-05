@@ -3,7 +3,7 @@
 
 // computes the shortest distance from start_node to every other node in an unweighted directed graph (digraph), basic computer science
 void bfs(const Graph *g, uint32_t start_node, uint32_t *distances) {
-    if(!g && !distances){
+    if(!g || !distances){
         return;
     }
     // alocating queue
